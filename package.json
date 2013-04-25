@@ -1,0 +1,15 @@
+{
+  "name": "writefile",
+  "version": "0.1.0",
+  "description": "safer file writing for node",
+  "keywords": ["fs","write","file"],
+  "author": "Jake Rosoman<jkroso@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jkroso/writefile.git"
+  },
+  "dependencies": {
+    "mkdirp": "~0.3.5",
+    "laissez-faire": "~0.12.1"
+  }
+}
