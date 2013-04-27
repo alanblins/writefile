@@ -1,33 +1,40 @@
 
 var writefile = require('..')
-  , streamFile = require('../stream')
   , fs = require('fs')
   , exec = require('child_process').exec
+  , equals = require('fs-equals')
+  , streamFile = require('../stream')
   , Stream = require('stream').PassThrough
 
-var target = __dirname+'/a/b/c/target'
-var txt = fs.readFileSync(target, 'utf8')
-rmdir(function(){
-	writefile(target, txt).end(function(){
-		console.assert(fs.existsSync(target))
-		console.log('done fs.writeFile()')
+var a = __dirname+'/a/target'
+var b = __dirname+'/b/target'
+var c = __dirname+'/c/target'
+var txt = fs.readFileSync(a, 'utf8')
 
-		rmdir(function(){
-			var stream = new Stream
-			streamFile(target, stream).end(function(){
-				console.assert(fs.existsSync(target))
-				console.log('done fs.createReadStream()')
-			})
-			stream.end(txt)
-		})
+writefile(b, txt).then(function(){
+	return equals(a, b)
+}).then(function(answer){
+	console.assert(answer)
+	console.log('done fs.writeFile()')
+}).then(function(){
+	exec('rm -r '+__dirname+'/b', function(error, stdout, stderr){
+		if (error) throw error
+		if (stderr) throw stderr
+		console.assert(!fs.existsSync(b))
 	})
 })
 
-function rmdir(cb){
-	exec('rm -r '+__dirname+'/a', function(error, stdout, stderr){
+var stream = new Stream
+streamFile(c, stream).then(function(){
+	return equals(a, c)
+}).then(function(answer){
+	console.assert(answer)
+	console.log('done fs.createReadStream()')
+}).then(function(){
+	exec('rm -r '+__dirname+'/c', function(error, stdout, stderr){
 		if (error) throw error
 		if (stderr) throw stderr
-		console.assert(!fs.existsSync(__dirname+'/a'))
-		cb()
+		console.assert(!fs.existsSync(c))
 	})
-}
+})
+stream.end(txt)

@@ -15,14 +15,17 @@ var mkdirp = require('mkdirp')
 module.exports = function(path, text){
 	var p = new Promise
 	write(path, text, function(e){
-		if (e) mkdirp(dirname(path), 0777, function(e){
+		if (!e) return p.fulfill()
+		if (e.code == 'ENOENT') return mkdirp(dirname(path), 0777, function(e){
 			if (e) p.reject(e)
 			else write(path, text, function(e){
 				if (e) p.reject(e)
 				else p.fulfill()
 			})
 		})
-		else p.fulfill()
+		// I'm not sure what other types of errors there are 
+		// so for now there all guilty 
+		p.reject(e)
 	})
 	return p
 }
