@@ -1,31 +1,29 @@
 
-var mkdirp = require('mkdirp')
-  , Promise = require('laissez-faire/full')
-  , dirname = require('path').dirname
+var dirname = require('path').dirname
   , write = require('fs').writeFile
+  , decorate = require('resultify')
+  , mkdirp = require('mkdirp')
+
+module.exports = decorate(writep)
+module.exports.plain = writep
 
 /**
  * fs.writeFile but makes parent directories if required
  * 
  * @param {String} path
  * @param {String} text
- * @return {Promise} nil
+ * @param {Function} cb
  */
 
-module.exports = function(path, text){
-	var p = new Promise
+function writep(path, text, cb){
 	write(path, text, function(e){
-		if (!e) return p.fulfill()
-		if (e.code == 'ENOENT') return mkdirp(dirname(path), 0777, function(e){
-			if (e) p.reject(e)
-			else write(path, text, function(e){
-				if (e) p.reject(e)
-				else p.fulfill()
+		if (!e) return cb(null)
+		if (e.code == 'ENOENT') {
+			return mkdirp(dirname(path), 0777, function(e){
+				if (e) cb(e)
+				else write(path, text, cb)
 			})
-		})
-		// I'm not sure what other types of errors there are 
-		// so for now there all guilty 
-		p.reject(e)
+		}
+		cb(e)
 	})
-	return p
 }

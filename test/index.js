@@ -1,10 +1,10 @@
 
-var writefile = require('..')
-  , fs = require('fs')
+var Stream = require('stream').PassThrough
   , exec = require('child_process').exec
-  , equals = require('fs-equals')
+  , equals = require('fs-equals/assert')
   , streamFile = require('../stream')
-  , Stream = require('stream').PassThrough
+  , writefile = require('..')
+  , fs = require('fs')
 
 var a = __dirname+'/a/target'
 var b = __dirname+'/b/target'
@@ -17,9 +17,8 @@ writefile(b, txt).then(function(){
 	console.assert(answer)
 	console.log('done fs.writeFile()')
 }).then(function(){
-	exec('rm -r '+__dirname+'/b', function(error, stdout, stderr){
+	exec('rm -r '+__dirname+'/b', function(error, stdout){
 		if (error) throw error
-		if (stderr) throw stderr
 		console.assert(!fs.existsSync(b))
 	})
 })
@@ -31,9 +30,8 @@ streamFile(c, stream).then(function(){
 	console.assert(answer)
 	console.log('done fs.createReadStream()')
 }).then(function(){
-	exec('rm -r '+__dirname+'/c', function(error, stdout, stderr){
+	exec('rm -r '+__dirname+'/c', function(error, stdout){
 		if (error) throw error
-		if (stderr) throw stderr
 		console.assert(!fs.existsSync(c))
 	})
 })

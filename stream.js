@@ -1,23 +1,24 @@
 
-var mkdirp = require('mkdirp')
-  , Promise = require('laissez-faire/full')
+var write = require('fs').createWriteStream
   , dirname = require('path').dirname
-  , write = require('fs').createWriteStream
+  , decorate = require('resultify')
+  , mkdirp = require('mkdirp')
+
+module.exports = decorate(writep)
+module.exports.plain = writep
 
 /**
  * fs.createWriteStream but makes parent directories if required
  * 
  * @param {String} path
  * @param {Stream} stream
- * @return {Promise} nil
+ * @param {Function} cb
  */
 
-module.exports = function(path, stream){
-	var p = new Promise
+function writep(path, stream, cb){
 	mkdirp(dirname(path), 0777, function(e){
 		stream.pipe(write(path))
-			.on('error', function(e){ p.reject(e) })
-			.on('finish', function(){ p.fulfill() })
+			.on('error', cb)
+			.on('finish', cb)
 	})
-	return p
 }

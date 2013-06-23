@@ -1,6 +1,6 @@
 {
   "name": "writefile",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "safer file writing for node",
   "keywords": [
     "fs",
@@ -13,10 +13,13 @@
     "url": "git://github.com/jkroso/writefile.git"
   },
   "dependencies": {
-    "mkdirp": "~0.3.5",
-    "laissez-faire": "~0.12.1"
+    "mkdirp": "0.3.5",
+    "resultify": "0.2.1"
   },
   "devDependencies": {
-    "fs-equals": "~0.1.0"
+    "fs-equals": "0.2.1"
+  },
+  "scripts": {
+    "install": "npm dedupe"
   }
 }
