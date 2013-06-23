@@ -20,13 +20,15 @@ var writefile = require('writefile')
 - [fromBuffer()](#fromBuffer)
 - [fromStream()](#fromStream)
 
+both these function return [Results](//github.com/jkroso/result) though they expose their internal callback based APIs as `fn.plain`. Feel free to use those functions instead.
+
 ### fromBuffer(path:String, text:String)
 
   fs.writeFile() but makes parent directories if required
 
 ### fromStream(path:String, text:Stream)
 
-  fs.createWriteStream() but makes parent directories if required
+  as above but accepts a `Stream` instead of a `String`
 
 ## Running the tests
 
@@ -34,7 +36,3 @@ var writefile = require('writefile')
 $ npm install
 $ node test
 ```
-
-## License 
-
-[MIT](License)
