@@ -1,6 +1,6 @@
 {
   "name": "writefile",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "safer file writing for node",
   "keywords": [
     "fs",
@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "mkdirp": "0.3.5",
-    "resultify": "0.2.3"
+    "resultify": "0.2.4"
   },
   "devDependencies": {
-    "fs-equals": "0.2.3"
+    "fs-equals": "0.2.4"
   },
   "scripts": {
     "install": "npm dedupe"
