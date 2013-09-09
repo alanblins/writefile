@@ -1,21 +1,18 @@
 
+var lift = require('lift-result/cps')
 var dirname = require('path').dirname
-  , write = require('fs').writeFile
-  , decorate = require('resultify')
-  , mkdirp = require('mkdirp')
-
-module.exports = decorate(writep)
-module.exports.plain = writep
+var write = require('fs').writeFile
+var mkdirp = require('mkdirp')
 
 /**
  * fs.writeFile but makes parent directories if required
- * 
+ *
  * @param {String} path
  * @param {String} text
  * @param {Function} cb
  */
 
-function writep(path, text, cb){
+module.exports = lift(function(path, text, cb){
 	write(path, text, function(e){
 		if (!e) return cb(null)
 		if (e.code == 'ENOENT') {
@@ -26,4 +23,4 @@ function writep(path, text, cb){
 		}
 		cb(e)
 	})
-}
+})
