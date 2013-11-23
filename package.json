@@ -1,6 +1,6 @@
 {
   "name": "writefile",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "safer file writing for node",
   "keywords": [
     "fs",
@@ -8,12 +8,9 @@
     "file"
   ],
   "author": "Jake Rosoman<jkroso@gmail.com>",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/jkroso/writefile.git"
-  },
+  "repository": "git://github.com/jkroso/writefile.git",
   "dependencies": {
-    "lift-result": "0.1.1",
+    "lift-result": "~0.1.3",
     "result-type": "1.0.0",
     "mkdirp": "0.3.5"
   },
