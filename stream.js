@@ -9,12 +9,13 @@ var mkdirp = require('mkdirp')
  *
  * @param {String} path
  * @param {Stream} stream
- * @param {Function} cb
+ * @param {Object} [options]
  */
 
-module.exports = lift(function(path, stream, cb){
+module.exports = lift(function(path, stream, options, cb){
+	if (typeof options != 'object') cb = options, options = null
 	mkdirp(dirname(path), 0777, function(e){
-		stream.pipe(write(path))
+		stream.pipe(write(path, options))
 			.on('error', cb)
 			.on('finish', cb)
 	})

@@ -1,6 +1,6 @@
 {
   "name": "writefile",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "safer file writing for node",
   "keywords": [
     "fs",
