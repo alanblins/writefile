@@ -13,14 +13,14 @@ var mkdirp = require('mkdirp')
  */
 
 module.exports = lift(function(path, text, cb){
-	write(path, text, function(e){
-		if (!e) return cb(null)
-		if (e.code == 'ENOENT') {
-			return mkdirp(dirname(path), 0777, function(e){
-				if (e) cb(e)
-				else write(path, text, cb)
-			})
-		}
-		cb(e)
-	})
+  write(path, text, function(e){
+    if (!e) return cb(null)
+    if (e.code == 'ENOENT') {
+      return mkdirp(dirname(path), 0777, function(e){
+        if (e) cb(e)
+        else write(path, text, cb)
+      })
+    }
+    cb(e)
+  })
 })
