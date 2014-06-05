@@ -13,10 +13,11 @@ var mkdirp = require('mkdirp')
  */
 
 module.exports = lift(function(path, stream, options, cb){
-	if (typeof options != 'object') cb = options, options = null
-	mkdirp(dirname(path), 0777, function(e){
-		stream.pipe(write(path, options))
-			.on('error', cb)
-			.on('finish', cb)
-	})
+  if (typeof options != 'object') cb = options, options = null
+  mkdirp(dirname(path), 0777, function(e){
+    if (e) return cb(e)
+    stream.pipe(write(path, options))
+      .on('error', cb)
+      .on('finish', cb)
+  })
 })
