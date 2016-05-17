@@ -1,7 +1,7 @@
 
 var lift = require('lift-result/cps')
 var dirname = require('path').dirname
-var write = require('fs').writeFile
+var write = require('fs').writeFileSync
 var mkdirp = require('mkdirp')
 
 /**
@@ -13,7 +13,7 @@ var mkdirp = require('mkdirp')
  */
 
 module.exports = lift(function(path, text, cb){
-  write(path, text, function(e){
+  write(path, text,{flag: "w"}, function(e){
     if (!e) return cb(null)
     if (e.code == 'ENOENT') {
       return mkdirp(dirname(path), 0777, function(e){
